@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add New Book</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e8f0e3, #f6f9f5);
+  min-height: 100vh;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+
+/* ===== CARD ===== */
+.card {
+  width: 700px;              /* width increase */
+  max-width: 95%;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  padding: 35px 40px;
+}
+
+
+/* ===== HEADER ===== */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.card-header h2 {
+  color: #4f7f1d;
+  font-weight: 600;
+}
+
+.close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #4f7f1d;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.close-btn:hover {
+  background: #2f5f0d;
+}
+
+/* ===== FORM ===== */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4f7f1d;
+  box-shadow: 0 0 0 2px rgba(79,127,29,0.2);
+}
+
+/* ===== FILE INPUT ===== */
+.file-input {
+  border: 2px dashed #cfdac7;
+  padding: 30px;             /* height increase */
+  text-align: center;
+  border-radius: 8px;
+  background: #f9fbf7;
+}
+
+
+.file-input input {
+  border: none;
+}
+
+.file-input:hover {
+  background: #eef5e8;
+}
+
+/* ===== BUTTON ===== */
+.submit-btn {
+  margin-top: 10px;
+  width: 100%;
+  background: #4f7f1d;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #2f5f0d;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="card-header">
+    <h2>Add New Book</h2>
+    <a href="{% url 'book_list' %}" class="close-btn">×</a>
+  </div>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Book Title</label>
+      <input type="text" name="title" placeholder="Enter book title" required>
+    </div>
+
+    <div class="form-group">
+      <label>Author Name</label>
+      <input type="text" name="author" placeholder="Enter author name" required>
+    </div>
+
+    <div class="form-group">
+      <label>Publication Date</label>
+      <input type="date" name="publication_date" required>
+    </div>
+
+    <div class="form-group">
+      <label>Book Cover Image</label>
+      <div class="file-input">
+        <input type="file" name="image" accept="image/*" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Upload PDF</label>
+      <div class="file-input">
+        <input type="file" name="book_upload" accept="application/pdf" required>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">Add Book</button>
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register | Logic Codder Library</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e8f0e3, #f6f9f5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== CARD ===== */
+.register-wrapper {
+  width: 450px;
+  max-width: 95%;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  padding: 35px 30px;
+  animation: fadeUp 0.6s ease;
+}
+
+/* ===== TITLE ===== */
+.app-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  color: #4f7f1d;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* ===== ALERT ===== */
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.alert-error {
+  background: #fdeaea;
+  color: #b30000;
+}
+
+.alert-success {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+/* ===== FORM ===== */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4f7f1d;
+  box-shadow: 0 0 0 2px rgba(79,127,29,0.2);
+}
+
+/* ===== BUTTON ===== */
+.register-btn {
+  width: 100%;
+  background: #4f7f1d;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-btn:hover {
+  background: #2f5f0d;
+}
+
+/* ===== FOOTER ===== */
+.footer-text {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.footer-text a {
+  color: #4f7f1d;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer-text a:hover {
+  text-decoration: underline;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="register-wrapper">
+
+  <div class="app-title">📚 Logic Codder Library</div>
+  <div class="subtitle">Create your account</div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" action="{% url 'registration' %}">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <input type="text" name="username" placeholder="Username" required>
+    </div>
+
+    <div class="form-group">
+      <input type="email" name="email" placeholder="Email address" required>
+    </div>
+
+    <div class="form-group">
+      <input type="password" name="password" placeholder="Password" required>
+    </div>
+
+    <div class="form-group">
+      <input type="password" name="confirm_password" placeholder="Confirm password" required>
+    </div>
+
+    <button type="submit" class="register-btn">Register</button>
+  </form>
+
+  <div class="footer-text">
+    Already have an account?
+    <a href="{% url 'user_login' %}">Login here</a>
+  </div>
+
+</div>
+
+</body>
+</html>

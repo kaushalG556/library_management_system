@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Library Management | Logic Codder</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#e8f0e3,#f6f9f5);
+  min-height:100vh;
+  padding:40px 0;
+}
+
+/* ===== CONTAINER ===== */
+.container{
+  max-width:1200px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:14px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+  animation:fadeUp .6s ease;
+}
+
+/* ===== HEADER ===== */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.header h2{
+  color:#4f7f1d;
+}
+
+.header a{
+  text-decoration:none;
+  font-size:22px;
+  color:#4f7f1d;
+  font-weight:600;
+}
+
+/* ===== FORM CARD ===== */
+.form-card{
+  background:#f7faf5;
+  padding:25px;
+  border-radius:12px;
+  margin-bottom:35px;
+}
+
+.form-card h3{
+  margin-bottom:15px;
+  color:#333;
+}
+
+/* grid */
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:15px;
+}
+
+.form-grid input,
+.form-grid select{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:14px;
+}
+
+.form-grid input:focus,
+.form-grid select:focus{
+  outline:none;
+  border-color:#4f7f1d;
+  box-shadow:0 0 0 2px rgba(79,127,29,.2);
+}
+
+/* submit */
+.submit-btn{
+  margin-top:20px;
+  background:#4f7f1d;
+  color:#fff;
+  border:none;
+  padding:12px 24px;
+  font-size:15px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.submit-btn:hover{
+  background:#2f5f0d;
+}
+
+/* ===== TABLE ===== */
+.table-title{
+  margin-bottom:15px;
+  color:#333;
+}
+
+.table-wrapper{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid #ddd;
+  text-align:left;
+  font-size:14px;
+}
+
+th{
+  background:#4f7f1d;
+  color:#fff;
+}
+
+tr:nth-child(even){
+  background:#f5f8f3;
+}
+
+.return-btn{
+  background:#007bff;
+  color:white;
+  border:none;
+  padding:6px 14px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.return-btn:hover{
+  background:#0056b3;
+}
+
+/* animation */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(25px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h2>📚 Library Management System</h2>
+    <a href="{% url 'book_list' %}">✕</a>
+  </div>
+
+  <!-- ADD FORM -->
+  <div class="form-card">
+    <h3>Add Borrow Entry</h3>
+    <form method="post" action="{% url 'borrow' %}">
+      {% csrf_token %}
+      <div class="form-grid">
+        <select name="book_select" required>
+          <option value="" disabled selected>Select Book</option>
+          {% for book in books %}
+          <option value="{{ book.id }}">{{ book.title }}</option>
+          {% endfor %}
+        </select>
+
+        <input type="text" name="name" placeholder="Student / Employee Name" required>
+
+        <input type="text" name="department" placeholder="Department" required>
+      </div>
+
+      <button type="submit" class="submit-btn">➕ Add to System</button>
+    </form>
+  </div>
+
+  <!-- TABLE -->
+  <h3 class="table-title">Borrowed Books</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Book ID</th>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Fine</th>
+          <th>Book Title</th>
+          <th>Borrow Date</th>
+          <th>Action</th>
+          <th>Returned</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for borrow in borrows %}
+        <tr>
+          <td>{{ borrow.book_id }}</td>
+          <td>{{ borrow.name }}</td>
+          <td>{{ borrow.department }}</td>
+          <td>{{ borrow.fine }}</td>
+          <td>{{ borrow.book.title }}</td>
+          <td>{{ borrow.borrow_date }}</td>
+          <td>
+            <form method="post" action="{% url 'return_book' pk=borrow.pk %}">
+              {% csrf_token %}
+              <button class="return-btn">Return</button>
+            </form>
+          </td>
+          <td>{{ borrow.returned }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>
